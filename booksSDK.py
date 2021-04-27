@@ -31,7 +31,7 @@ def get_books():
 
     print("The currently stored books in the DB are: ")
     data = c.fetchall()
-
+    c.connection.close()
     if not data:
         return None
 
@@ -43,6 +43,7 @@ def get_book_by_title(title):
     with c.connection:
         c.execute('SELECT * FROM books WHERE title=?', (title,))
     data =  c.fetchone()
+    c.connection.close()
 
     if not data:
         return None
@@ -52,4 +53,5 @@ def delete_books():
     c = cursor()
     with c.connection:
         c.execute('DELETE FROM books')
+    c.connection.close()
     print(F"The database has been cleared")
